@@ -3,7 +3,8 @@ import fs from 'fs';
 import path from 'path';
 import { sanitizeFilename } from './validation';
 import * as archiverLib from 'archiver';
-const { ZipArchive } = archiverLib;
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const createArchive = require('archiver') as (format: string, options?: object) => archiverLib.Archiver;
 
 export interface UploadedFile {
   filepath: string;
@@ -83,7 +84,7 @@ export function createZipFromFiles(
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     const output = fs.createWriteStream(outputPath);
-    const archive = new ZipArchive({ zlib: { level: 9 } });
+    const archive = createArchive('zip', { zlib: { level: 9 } });
 
     output.on('close', () => resolve());
     output.on('error', (err: Error) => reject(err));
