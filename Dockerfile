@@ -5,7 +5,6 @@ RUN apk add --no-cache \
     libreoffice \
     poppler-utils \
     font-noto \
-    font-noto-cjk \
     && rm -rf /var/cache/apk/*
 
 # ---- deps ----

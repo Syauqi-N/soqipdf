@@ -2,9 +2,7 @@ import { NextRequest } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import { sanitizeFilename } from './validation';
-import * as archiverLib from 'archiver';
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const createArchive = require('archiver') as (format: string, options?: object) => archiverLib.Archiver;
+import JSZip from 'jszip';
 
 export interface UploadedFile {
   filepath: string;
@@ -78,27 +76,16 @@ export function generateOutputFilename(
   return `${sanitized}_${operation}_${timestamp}.${extension}`;
 }
 
-export function createZipFromFiles(
+export async function createZipFromFiles(
   files: string[],
   outputPath: string
 ): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const output = fs.createWriteStream(outputPath);
-    const archive = createArchive('zip', { zlib: { level: 9 } });
-
-    output.on('close', () => resolve());
-    output.on('error', (err: Error) => reject(err));
-    archive.on('error', (err: Error) => reject(err));
-
-    archive.pipe(output);
-
-    files.forEach((filePath) => {
-      const fileName = path.basename(filePath);
-      archive.file(filePath, { name: fileName });
-    });
-
-    archive.finalize();
-  });
+  const zip = new JSZip();
+  for (const filePath of files) {
+    zip.file(path.basename(filePath), fs.readFileSync(filePath));
+  }
+  const buffer = await zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' });
+  fs.writeFileSync(outputPath, buffer);
 }
 
 export function ensureDir(dirPath: string): void {
