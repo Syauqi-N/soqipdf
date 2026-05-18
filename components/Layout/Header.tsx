@@ -11,8 +11,8 @@ export default function Header() {
             <Image 
               src="/soqipdf.png" 
               alt="SoqiPDF Logo" 
-              width={40} 
-              height={40}
+              width={80} 
+              height={80}
               className="rounded-lg"
             />
             <span className="text-2xl font-bold text-white">SoqiPDF</span>
