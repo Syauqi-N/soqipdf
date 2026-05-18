@@ -1,6 +1,6 @@
 services:
   app:
-    image: ghcr.io/YOUR_GITHUB_USERNAME/soqipdf:latest  # ganti dengan username/repo kamu
+    image: ghcr.io/syauqi-n/soqipdf:1.0
     ports:
       - "3000:3000"
     environment:
