@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: YOUR_GITHUB_USERNAME/soqipdf  # ganti dengan username/repo kamu
+  IMAGE_NAME: syauqi-n/soqipdf  # ganti dengan username/repo kamu
 
 jobs:
   build-and-push:
