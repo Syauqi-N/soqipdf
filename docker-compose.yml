@@ -1,0 +1,13 @@
+services:
+  app:
+    image: ghcr.io/YOUR_GITHUB_USERNAME/soqipdf:latest  # ganti dengan username/repo kamu
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - tmp_data:/app/tmp
+    restart: unless-stopped
+
+volumes:
+  tmp_data:
